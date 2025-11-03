@@ -16,14 +16,36 @@ import random
 class MarketEnv:
 
     # the "market price" is just that because there is only one asset in the market
-     def __init__(self, init_price = 100):
+    def __init__(self, agents, init_price = 100):
         self.price = init_price
-        self.agent_states = {
-            0: {"cash": 1000, "asset": 5},
-            1: {"cash": 1000, "asset": 5}
-        }
+        self.agents = agents
 
     def step(self, actions):
-        a0, a1 = actions
-        trade = None
+       actions = [a.decide(self.price) for a in self.agents]
+       self.match(actions)
+       self
 
+    def broadcast_state(self):
+        for a in self.agents:
+            a.observe(self.price)
+
+
+
+class Agent:
+    def __init__(self, id):
+        self.id = id,
+        self.cash = 100,
+        self.asset = 5
+
+    def decide(self, price):
+        return 5
+        # what is the policy ??
+        # can return a buy_offer or ask_price
+
+
+    def observe(self, new_price):
+        return 5
+    # should update the beliefs or the policy
+
+
+    
